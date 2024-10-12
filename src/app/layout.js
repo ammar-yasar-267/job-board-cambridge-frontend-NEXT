@@ -15,16 +15,13 @@ const geistMono = localFont({
 export const metadata = {
   title: 'Job Board | Search Jobs in Cambridge',
   description: 'Search thousands of Jobs updated every day in Cambridge',
-  icons: {
-    icon: '/favicon.ico',
-  }
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="icon" href="favicon.ico" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

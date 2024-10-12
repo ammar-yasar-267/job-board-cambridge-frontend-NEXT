@@ -2,23 +2,20 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, Loader } from 'lucide-react';
 import NewsLetterSubscription from './NewsLetterSubscription';
 import NotificationForEmail from './NotificationForEmail';
 import Link from 'next/link';
 
 const JobBoard = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [notification, setNotification] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const router = useRouter();
 
-  const handleSearch = (href) => {
-    if (href) {
-      router.push(href);
-    }
-
+  const handleSearch = async (href) => {
     if (searchTerm.trim() === '') {
       setNotification({
         message: 'Please enter a search term',
@@ -26,20 +23,32 @@ const JobBoard = () => {
       });
       return;
     }
+
+    setIsLoading(true);
+
+    try {
+      if (href) {
+        await router.push(href);
+      }
+      // Perform any other async operations here
+    } catch (error) {
+      console.error('Search error:', error);
+      setNotification({
+        message: 'An error occurred during search',
+        type: 'error',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       const keyword = searchTerm.trim();
-      if (keyword === '') {
-        setNotification({
-          message: 'Please enter a search term',
-          type: 'error',
-        });
-        return;
+      if (keyword !== '') {
+        const href = `/jobsearch/${keyword}`;
+        handleSearch(href);
       }
-      const href = `/jobsearch/${keyword}`;
-      handleSearch(href);
     }
   };
 
@@ -58,7 +67,7 @@ const JobBoard = () => {
           backgroundPosition: 'center',
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           backgroundBlendMode: 'overlay',
-          height: '80vh', // Changed from minHeight to height
+          height: '80vh',
         }}>
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center text-white mb-2">Jobs Finder</h1>
@@ -69,14 +78,14 @@ const JobBoard = () => {
             <div className="max-w-4xl mx-auto mb-12">
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                 <div className="flex-grow relative">
-                <input
-  type="text"
-  placeholder="What? Job or company name"
-  className="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out text-input bg-white"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  onKeyDown={handleKeyDown}
-/>
+                  <input
+                    type="text"
+                    placeholder="What? Job or company name"
+                    className="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out text-input bg-white"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
                   <Search className="absolute right-4 top-4 text-gray-400" />
                 </div>
                 <input
@@ -89,20 +98,25 @@ const JobBoard = () => {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    const keyword = searchTerm.trim(); // get the search term and trim it
-
-                    if (keyword === '') {
-                      alert('Please enter a search term');
-                      return;
+                    const keyword = searchTerm.trim();
+                    if (keyword !== '') {
+                      const href = `/jobsearch/${keyword}`;
+                      handleSearch(href);
                     }
-                    const href = `/jobsearch/${keyword}`;
-                    // pass to HandleSearch
-                    handleSearch(href);
-                    router.push(href);
                   }}
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                  disabled={isLoading}
+                  className={`flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${
+                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
-                  Search
+                  {isLoading ? (
+                    <>
+                      <Loader className="animate-spin mr-2" size={20} />
+                      Searching...
+                    </>
+                  ) : (
+                    'Search'
+                  )}
                 </button>
               </div>
             </div>
