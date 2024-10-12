@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --input-text: #000000;
+  --select-text: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +25,11 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer base {
+  input, textarea, select {
+    color: var(--input-text) !important;
   }
 }

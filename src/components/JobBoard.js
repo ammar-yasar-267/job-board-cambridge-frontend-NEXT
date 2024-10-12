@@ -69,14 +69,14 @@ const JobBoard = () => {
             <div className="max-w-4xl mx-auto mb-12">
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                 <div className="flex-grow relative">
-                  <input
-                    type="text"
-                    placeholder="What? Job or company name"
-                    className="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
+                <input
+  type="text"
+  placeholder="What? Job or company name"
+  className="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out text-input bg-white"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  onKeyDown={handleKeyDown}
+/>
                   <Search className="absolute right-4 top-4 text-gray-400" />
                 </div>
                 <input

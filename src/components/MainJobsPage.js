@@ -5,7 +5,7 @@ export default function MainJobsPage({ keyword }) {
     return (
         <>
         {console.log('Jobs keyword:', keyword)}
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-200">
             <AllJobsPage />
             <FetchJobsData keyword={keyword}/>
         </div>
