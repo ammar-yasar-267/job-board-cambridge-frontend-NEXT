@@ -4,8 +4,10 @@ import FooterServer from './FooterServer';
 export default function JobBoardPage() {
   return (
     <>
-      <JobBoard /> {/* Client Component */}
-      <FooterServer /> {/* Server Component */}
+      <div className="flex flex-col min-h-screen">
+      <JobBoard />
+      <FooterServer />
+    </div>
     </>
   );
 }
