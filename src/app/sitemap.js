@@ -32,7 +32,7 @@
     }
 
     export default async function sitemap() {
-        const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+        const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'https://job-board-cambridge-frontend-next.vercel.app'
         const categories = await fetchCategories();
     
         const sitemap = Object.keys(categories || {}).reduce((acc, category) => {
