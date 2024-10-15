@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
       openGraph: {
           title: `${keyword} Jobs in Cambridge | Jobs in Cambridge`,
           description: `Find the latest ${keyword} job opportunities in Cambridge. Browse our curated list of positions with top companies.`,
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/jobsearch/${keyword}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://job-board-cambridge-frontend-next.vercel.app'}/jobsearch/${keyword}`,
           type: 'website',
       },
       robots: {
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
           follow: true,
       },
       alternates: {
-          canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/jobsearch/${keyword}`,
+          canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://job-board-cambridge-frontend-next.vercel.app'}/jobsearch/${keyword}`,
       },
   };
 }
