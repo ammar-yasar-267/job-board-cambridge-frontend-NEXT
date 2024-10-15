@@ -12,11 +12,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata = {
-  title: 'Job Board | Search Jobs in Cambridge',
-  description: 'Search thousands of Jobs updated every day in Cambridge',
-}
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Briefcase, MapPin, Clock, CreditCard, Calendar, ArrowLeft, HomeIcon } from 'lucide-react';
+import { Search, Briefcase, MapPin, Clock, CreditCard, Calendar, ArrowLeft, HomeIcon, Loader } from 'lucide-react';
 import FilterDrawer from './CustomFilter';
 
 const AllJobsPage = () => {
   
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
   // const { keyword } = useParams();
@@ -29,9 +30,41 @@ const AllJobsPage = () => {
   // const [contractType, setContractType] = useState('');
   // const [hours, setHours] = useState('');
 
+  const handleSearch = async (href) => {
+    if (searchTerm.trim() === '') {
+      setNotification({
+        message: 'Please enter a search term',
+        type: 'error',
+      });
+      return;
+    }
+
+    try {
+      if (href) {
+        setTimeout(() => {
+          setIsLoading(true);
+          router.push(href);
+        }, 100);
+      }
+      // Perform any other async operations here
+    } catch (error) {
+      console.error('Search error:', error);
+      setNotification({
+        message: 'An error occurred during search',
+        type: 'error',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      const keyword = searchTerm.trim();
+      if (keyword !== '') {
+        const href = `/jobsearch/${keyword}`;
+        handleSearch(href);
+      }
     }
   };
 
@@ -39,7 +72,7 @@ const AllJobsPage = () => {
     <>
       <div className="bg-green-600 p-4 md:p-6 shadow-md w-full">
         <div className="container mx-auto w-full">
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
+          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
             <button
               aria-label="Go back to previous page"
               className="group bg-green-600 text-white p-2 rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-100"
@@ -52,6 +85,7 @@ const AllJobsPage = () => {
                 type="text"
                 placeholder="What job are you looking for?"
                 className="w-full p-3 pr-4 rounded-lg border-2 border-green-500 focus:outline-none focus:border-green-700"
+                value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
@@ -67,13 +101,25 @@ const AllJobsPage = () => {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                const keyword = searchTerm.trim(); // get the search term and trim it
-                const href = `/jobsearch/${keyword}`;
-                router.push(href);
+                const keyword = searchTerm.trim();
+                if (keyword !== '') {
+                  const href = `/jobsearch/${keyword}`;
+                  handleSearch(href);
+                }
               }}
-              className="w-full md:w-auto bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition duration-300"
+              disabled={isLoading}
+              className={`w-full md:w-auto bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition duration-300 ${
+                isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              } flex items-center justify-center`}
             >
-              Search Jobs
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin mr-2" size={20} />
+                  Searching...
+                </>
+              ) : (
+                'Search'
+              )}
             </button>
           </div>
         </div>

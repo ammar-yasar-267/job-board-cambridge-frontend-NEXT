@@ -31,9 +31,9 @@ export default function JobsPageWrapper({ keyword, initialJobs, categories }) {
   };
 
   return (
-    <><div className="min-h-screen bg-gray-200">
+    <><div className="min-h-screen bg-gray-100">
       <AllJobsPage />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4">
       <div className="p-6 rounded-lg mb-4 transition duration-300 flex flex-col md:flex-row gap-10">
         <div className="md:w-1/4">
           <FilterDrawer

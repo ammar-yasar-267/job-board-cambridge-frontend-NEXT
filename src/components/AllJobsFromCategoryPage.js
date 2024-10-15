@@ -4,18 +4,17 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Head from 'next/head';
-import { Search, Briefcase, MapPin, Clock, CreditCard, Calendar, HomeIcon } from 'lucide-react';
+import { Search, Briefcase, MapPin, Clock, CreditCard, Calendar, HomeIcon, Loader } from 'lucide-react';
 
 const AllJobsFromCategoryPage = () => {
 
-  const params = useParams();
-  const keyword = params.keyword;
-  const Router = useRouter();
+  const { keyword, category } = useParams();
+  const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [staticHtml, setStaticHtml] = useState('');
   const [metadata, setMetadata] = useState(null);
   const [structuredData, setStructuredData] = useState(null);
-  const { category } = useParams();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState({});
@@ -23,15 +22,41 @@ const AllJobsFromCategoryPage = () => {
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = () => {
-    if (searchTerm) {
-      Router.push(`/jobsearch/${searchTerm}`);
+  const handleSearch = async (href) => {
+    if (searchTerm.trim() === '') {
+      setNotification({
+        message: 'Please enter a search term',
+        type: 'error',
+      });
+      return;
+    }
+
+    try {
+      if (href) {
+        setTimeout(() => {
+          setIsLoading(true);
+          router.push(href);
+        }, 100);
+      }
+      // Perform any other async operations here
+    } catch (error) {
+      console.error('Search error:', error);
+      setNotification({
+        message: 'An error occurred during search',
+        type: 'error',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      const keyword = searchTerm.trim();
+      if (keyword !== '') {
+        const href = `/jobsearch/${keyword}`;
+        handleSearch(href);
+      }
     }
   };
 
@@ -43,7 +68,7 @@ const AllJobsFromCategoryPage = () => {
             <button
               aria-label="Go back to previous page"
               className="group bg-green-600 text-white p-2 rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-100"
-              onClick={() => Router.push('/')}
+              onClick={() => router.push('/')}
             >
               <HomeIcon className="w-6 h-6" />
             </button>
@@ -52,6 +77,7 @@ const AllJobsFromCategoryPage = () => {
                 type="text"
                 placeholder="What job are you looking for?"
                 className="w-full p-3 pr-4 rounded-lg border-2 border-green-500 focus:outline-none focus:border-green-700"
+                value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
@@ -65,10 +91,27 @@ const AllJobsFromCategoryPage = () => {
               readOnly={true}
             />
             <button
-              onClick={handleSearch}
-              className="w-full md:w-auto bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition duration-300"
+              onClick={(e) => {
+                e.preventDefault();
+                const keyword = searchTerm.trim();
+                if (keyword !== '') {
+                  const href = `/jobsearch/${keyword}`;
+                  handleSearch(href);
+                }
+              }}
+              disabled={isLoading}
+              className={`w-full md:w-auto bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition duration-300 ${
+                isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              } flex items-center justify-center`}
             >
-              Search Jobs
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin mr-2" size={20} />
+                  Searching...
+                </>
+              ) : (
+                'Search'
+              )}
             </button>
           </div>
         </div>
