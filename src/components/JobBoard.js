@@ -45,13 +45,18 @@ const JobBoard = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      const keyword = searchTerm.trim();
+      let keyword = searchTerm.trim();
+      keyword = keyword.toLowerCase();
       if (keyword !== '') {
-        const href = `/jobsearch/${keyword}`;
+        const href = `/jobs/${keyword.replace(/\s+/g, '-')}-jobs-in-cambridge`;
         handleSearch(href);
       }
     }
   };
+
+  const handleIsSubscribed = (subscribed) => {
+    setIsSubscribed(subscribed);
+  }
 
   return (
     <div className="min-h-5 flex flex-col font-sans">
@@ -70,17 +75,17 @@ const JobBoard = () => {
             backgroundPosition: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             backgroundBlendMode: 'overlay',
-            minHeight: '80vh', // Reduced height
+            minHeight: isSubscribed ? '60vh' : '80vh', // Adjust height based on subscription status
           }}
         >
-          <div className="container mx-auto px-4 flex-grow flex flex-col">
+          <div className={`container mx-auto px-4 py-6 flex-grow flex flex-col gap-8`}>
             <div>
               <h1 className="text-4xl font-bold text-center text-white mb-2">Jobs Finder</h1>
               <p className="text-center text-gray-200 mb-8 max-w-2xl mx-auto"> {/* Reduced margin */}
                 Job Ads from thousands of websites in just one search.
               </p>
 
-              <div className="max-w-4xl mx-auto mb-8"> {/* Reduced margin */}
+              <div className="max-w-4xl py-4 mx-auto mb-8"> {/* Reduced margin */}
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                   <div className="flex-grow relative">
                     <input
@@ -103,9 +108,11 @@ const JobBoard = () => {
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      const keyword = searchTerm.trim();
+                      let keyword = searchTerm.trim();
+                      keyword = keyword.toLowerCase();
+                      console.log('Keyword:', keyword);
                       if (keyword !== '') {
-                        const href = `/jobsearch/${keyword}`;
+                        const href = `/jobs/${keyword.replace(/\s+/g, '-')}-jobs-in-cambridge`;
                         handleSearch(href);
                       }
                     }}
@@ -126,9 +133,9 @@ const JobBoard = () => {
                 </div>
               </div>
             </div>
-
+            
             {!isSubscribed && (
-              <NewsLetterSubscription email={email} setEmail={setEmail} />
+              <NewsLetterSubscription isSubscribed={handleIsSubscribed} />
             )}
           </div>
         </div>

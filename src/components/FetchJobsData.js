@@ -51,7 +51,8 @@ async function getCategories() {
       const url = `${process.env.NEXT_PUBLIC_API_URL}/${keyword}-jobs-in-cambridge${queryParams ? `?${queryParams}` : ''}`;
 
       const response = await fetch(url);
-      const data = await response.json();
+      const count = await response.total_jobs;
+      const data = await response.jobs.json();
 
       if (data && Array.isArray(data)) {
         setJobs(data);
@@ -78,6 +79,7 @@ async function getCategories() {
 
     return (
         <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-semibold text-green-600 mb-4">Search Results for {keyword} Jobs in Cambridge: {jobs.count}</h1>
         <div className="flex flex-col md:flex-row gap-8">
 
         <FilterDrawer

@@ -11,7 +11,7 @@ const Categories = ({ categories }) => (
                     <ul className="space-y-2">
                         {items.map((item) => (
                             <li key={item.pageName}>
-                                <Link href={`/category/${item.keyword}`}>
+                                <Link href={`/category/${item.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`}>
                                     <span className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out cursor-pointer">
                                         {item.keyword} jobs in Cambridge
                                     </span>

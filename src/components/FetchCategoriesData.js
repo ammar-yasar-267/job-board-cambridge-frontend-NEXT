@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { countJobEntries } from '@/utils/countJobEntries';
 
 async function getCategories() {
     try {
@@ -57,6 +58,7 @@ async function fetchStaticHtml(keyword) {
     console.log('Try');
     const categories = await getCategories();
     const staticHtml = await fetchStaticHtml(keyword);
+    const totalEntries = countJobEntries(staticHtml);
 
     if (!categories) {
         return <div>Error loading categories</div>;
@@ -64,55 +66,58 @@ async function fetchStaticHtml(keyword) {
 
     return (
     <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-            <div className="hidden md:block w-full md:w-1/4 gap-x-4">
-            <div className="bg-white py-5 rounded-lg shadow-md p-6">
-            <h3 className="font-bold text-xl mb-4 text-gray-800">Explore Categories</h3>
-            <div className="space-y-6">
-                {Object.entries(categories).map(([category, items]) => (
-                    <div key={category}>
-                    <h3 className="text-lg font-medium mb-3 text-gray-700">{category}</h3>
-                    <ul className="space-y-2">
-                        {items.map((item) => (
-                        <li key={`${category}-${item.pageName}`}>
-                        <Link href={`/category/${item.keyword}`}>
-                          <span className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out cursor-pointer">
-                            {item.keyword} jobs in Cambridge
-                          </span>
-                        </Link>
-                      </li>
-                        ))}
-                    </ul>
-                    </div>
-                ))}
+      <h1 className="text-3xl text-green-600 font-bold mb-6 py-4 border-b-4 border-green-500">
+        {totalEntries} {keyword.replace(/%20/g, ' ')} jobs found in Cambridge
+      </h1>
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="hidden md:block w-full md:w-1/4 gap-x-4">
+        <div className="bg-white py-5 rounded-lg shadow-md p-6">
+        <h3 className="font-bold text-xl mb-4 text-gray-800">Explore Categories</h3>
+        <div className="space-y-6">
+          {Object.entries(categories).map(([category, items]) => (
+            <div key={category}>
+            <h3 className="text-lg font-medium mb-3 text-gray-700">{category}</h3>
+            <ul className="space-y-2">
+              {items.map((item) => (
+              <li key={`${category}-${item.pageName}`}>
+              <Link href={`/category/${item.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`}>
+                <span className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out cursor-pointer">
+                {item.keyword.replace(/%20/g, ' ')} jobs in Cambridge
+                </span>
+              </Link>
+              </li>
+              ))}
+            </ul>
             </div>
-            </div>
-        </div>
-        <div className="w-full md:flex-grow">
-            <div dangerouslySetInnerHTML={{ __html: staticHtml }} />
-        </div>
-        <div className="block md:hidden mt-8">
-            <div className="bg-white py-5 rounded-lg shadow-md p-6">
-            <h3 className="font-bold text-xl mb-4 text-gray-800">Explore Categories</h3>
-            <div className="space-y-6">
-                {Object.entries(categories).map(([category, items]) => (
-                    <div key={category}>
-                    <h3 className="text-lg font-medium mb-3 text-gray-700">{category}</h3>
-                    <ul className="space-y-2">
-                        {items.map((item) => (
-                        <li key={item.pageName}>
-                            <a href={`/category/${item.keyword}`} className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out">
-                            {item.keyword} jobs in Cambridge
-                            </a>
-                        </li>
-                        ))}
-                    </ul>
-                    </div>
-                ))}
-            </div>
-            </div>
+          ))}
         </div>
         </div>
+      </div>
+      <div className="w-full md:flex-grow">
+        <div dangerouslySetInnerHTML={{ __html: staticHtml }} />
+      </div>
+      <div className="block md:hidden mt-8">
+        <div className="bg-white py-5 rounded-lg shadow-md p-6">
+        <h3 className="font-bold text-xl mb-4 text-gray-800">Explore Categories</h3>
+        <div className="space-y-6">
+          {Object.entries(categories).map(([category, items]) => (
+            <div key={category}>
+            <h3 className="text-lg font-medium mb-3 text-gray-700">{category}</h3>
+            <ul className="space-y-2">
+              {items.map((item) => (
+              <li key={item.pageName}>
+                <a href={`/category/${item.keyword}`} className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out">
+                {item.keyword.replace(/%20/g, ' ')} jobs in Cambridge
+                </a>
+              </li>
+              ))}
+            </ul>
+            </div>
+          ))}
+        </div>
+        </div>
+      </div>
+      </div>
     </div>
     );
 }

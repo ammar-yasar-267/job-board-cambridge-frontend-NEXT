@@ -39,19 +39,18 @@
             const pages = categories[category];
             pages.forEach((page) => {
                 acc.push({
-                    url: `${baseURL}/category/${page.keyword}`,
+                    url: `${baseURL}/category/${page.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`,
                     lastModified: new Date(),
                     changeFrequency: 'daily',
                     priority: 0.8,
                 });
 
                 acc.push({
-                    url: `${baseURL}/jobsearch/${page.keyword}`,
-                    lastModified: new Date(),
-                    changeFrequency: 'daily',
-                    priority: 0.7, // You might want to adjust this priority
-                });
-            });
+                  url: `${baseURL}/jobs/${page.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`,
+                  lastModified: new Date(),
+                  changeFrequency: 'daily',
+                  priority: 0.7, // You might want to adjust this priority
+                });    });
             return acc;
         }, []); // Initialize acc as an empty array
     

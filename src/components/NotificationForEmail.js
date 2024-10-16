@@ -5,6 +5,11 @@ const NotificationForEmail = ({ message, type, onClose }) => {
   const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
   const Icon = type === 'success' ? CheckCircle : XCircle;
 
+  React.useEffect(() => {
+    const timer = setTimeout(onClose, 5000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   return (
     <div className={`fixed top-4 right-4 ${bgColor} text-white p-4 rounded-lg shadow-lg flex items-center max-w-md`}>
       <Icon className="w-6 h-6 mr-3" />

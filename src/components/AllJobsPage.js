@@ -60,9 +60,10 @@ const AllJobsPage = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      const keyword = searchTerm.trim();
+      let keyword = searchTerm.trim();
+      keyword = keyword.toLowerCase();
       if (keyword !== '') {
-        const href = `/jobsearch/${keyword}`;
+        const href = `/jobs/${keyword.replace(/\s+/g, '-')}-jobs-in-cambridge`;
         handleSearch(href);
       }
     }
@@ -101,10 +102,11 @@ const AllJobsPage = () => {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                const keyword = searchTerm.trim();
+                let keyword = searchTerm.trim();
+                keyword = keyword.toLowerCase();
                 if (keyword !== '') {
-                  const href = `/jobsearch/${keyword}`;
-                  handleSearch(href);
+                  const href = `/jobs/${keyword}-jobs-in-cambridge`;
+                    handleSearch(href.replace(/\s+/g, '-'));
                 }
               }}
               disabled={isLoading}

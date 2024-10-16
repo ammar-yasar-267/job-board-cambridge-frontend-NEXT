@@ -96,7 +96,7 @@ const AllJobsPage = () => {
     if (searchTerm) {
       setLoading(true); // Show loading spinner during search
       setJobs([]); // Clear previous jobs
-      navigate(`/jobs/${searchTerm}`);  // Navigate to the /jobs/{searchTerm} route
+      navigate(`/jobs/${searchTerm.replace(/\s+/g, '-')}`);  // Navigate to the /jobs/{searchTerm} route with spaces replaced by hyphens
     }
   };
 

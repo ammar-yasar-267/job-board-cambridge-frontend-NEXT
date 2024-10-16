@@ -2,7 +2,9 @@ import MainCategoriesPage from '../../../components/MainCategoriesPage.js';
 
 async function getMetaData(keyword) {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${keyword}`, {
+        
+        const extractedKeyword = keyword.replace(/-/g, ' ').split(' jobs in cambridge')[0];
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${extractedKeyword}`, {
             cache: 'no-store',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +21,9 @@ async function getMetaData(keyword) {
 
 export async function generateMetadata({ params }) {
     const { keyword } = params;
-    const metadata = await getMetaData(keyword);
+    const extractedKeyword = keyword.replace(/-/g, ' ').split(' jobs in cambridge')[0];
+    const formattedKeyword = extractedKeyword.replace(/\b\w/g, (char) => char.toUpperCase());
+    const metadata = await getMetaData(formattedKeyword);
 
     if (!metadata) {
         return {
@@ -48,11 +52,13 @@ export async function generateMetadata({ params }) {
 
 export default function Category({ params }) {
     const { keyword } = params;
+    const extractedKeyword = keyword.replace(/-/g, ' ').split(' jobs in cambridge')[0];
+    const formattedKeyword = extractedKeyword.replace(/\b\w/g, (char) => char.toUpperCase());
 
     return (
         <>
             {console.log('keyword:', keyword)}
-            <MainCategoriesPage keyword={keyword} />
+            <MainCategoriesPage keyword={formattedKeyword} />
         </>
     );
 }

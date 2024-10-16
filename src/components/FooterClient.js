@@ -30,7 +30,7 @@ export default function FooterClient({ categories }) {
             <ul className="space-y-2">
               {items.map(item => (
                 <li key={`${category}-${item.pageName}`} className="flex items-center">
-                  <Link href={`/category/${item.keyword}`} onClick={(e) => handleClick(e, `/category/${item.keyword}`)}>
+                  <Link href={`/category/${item.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`} onClick={(e) => handleClick(e, `/category/${item.keyword.toLowerCase().replace(/\s+/g, '-')}-jobs-in-cambridge`)}>
                     <span className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out cursor-pointer">
                       {item.keyword} jobs in Cambridge
                     </span>
