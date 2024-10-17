@@ -64,6 +64,7 @@ const AllJobsFromCategoryPage = () => {
   return (
     <>
       <div className="bg-green-600 p-4 md:p-6 shadow-md">
+        {}
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
             <button
