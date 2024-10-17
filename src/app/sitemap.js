@@ -1,7 +1,9 @@
     async function fetchCategories() {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/footer`, {
-          cache: 'no-store', 
+          next: {
+            revalidate: 3600 // Revalidate every hour
+          }, 
           headers: {
             'Content-Type': 'application/json',
           },

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import FilterDrawer from './CustomFilter';
+import { MapPin, CreditCard, Briefcase, Clock, Calendar } from 'react-icons/fi'; // Importing icons from react-icons/fi
 
 async function getCategories() {
     try {

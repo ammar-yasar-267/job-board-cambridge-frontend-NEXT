@@ -16,6 +16,11 @@ const nextConfig = {
       }
     ]
   },
+  // Add this for better error handling
+  onError: async (err, req, res) => {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  },
   async rewrites() {
     return [
       {
