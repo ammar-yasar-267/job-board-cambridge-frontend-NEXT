@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'job-board-cambridge'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4FC44079748245859823DE71E8689B2F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DFFD65346CAE417EBAE2E35E279AAF22 }}
           package: .
