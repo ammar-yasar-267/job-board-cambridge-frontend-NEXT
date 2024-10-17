@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Next.js app to Azure Web App - job-board-cambridge
 
 on:
@@ -39,10 +36,43 @@ jobs:
           cp -r ./public ./.next/standalone/public
           cp -r ./.next/static ./.next/standalone/.next/static
           cp next.config.mjs ./.next/standalone/
+          # Create web.config
+          echo '<?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <system.webServer>
+              <handlers>
+                <add name="iisnode" path="server.js" verb="*" modules="iisnode" />
+              </handlers>
+              <rewrite>
+                <rules>
+                  <rule name="NodeInspector" patternSyntax="ECMAScript" stopProcessing="true">
+                    <match url="^server.js\/debug[\/]?" />
+                  </rule>
+                  <rule name="StaticContent">
+                    <action type="Rewrite" url="public{REQUEST_URI}"/>
+                  </rule>
+                  <rule name="DynamicContent">
+                    <conditions>
+                      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="True"/>
+                    </conditions>
+                    <action type="Rewrite" url="server.js"/>
+                  </rule>
+                </rules>
+              </rewrite>
+              <env>
+                <add name="PORT" value="8080" />
+              </env>
+            </system.webServer>
+          </configuration>' > ./.next/standalone/web.config
+          # Create startup script
+          echo "#!/bin/sh
+          cd /home/site/wwwroot
+          exec node server.js" > ./.next/standalone/startup.sh
+          chmod +x ./.next/standalone/startup.sh
 
       - name: Zip artifact for deployment
         run: |
-          cd .next/standalone
+          cd ./.next/standalone
           zip -r ../../release.zip ./*
 
       - name: Upload artifact for deployment job
@@ -77,6 +107,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
           package: .
-
-      - name: Delete artifact
-        run: rm -rf node-app

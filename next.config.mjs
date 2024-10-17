@@ -1,11 +1,14 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  experimental: {
+    serverActions: true,
+  },
+  poweredByHeader: false,
+  generateEtags: false,
   async headers() {
     return [
       {
-        // matching all API routes
         source: "/api/:path*",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
@@ -15,11 +18,6 @@ const nextConfig = {
         ]
       }
     ]
-  },
-  // Add this for better error handling
-  onError: async (err, req, res) => {
-    console.error(err);
-    return res.status(500).send('Internal Server Error');
   },
   async rewrites() {
     return [
