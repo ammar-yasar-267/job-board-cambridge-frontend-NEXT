@@ -9,6 +9,7 @@ on:
 env:
   APPLICATION_PUBLISH_PROFILE: ${{ secrets.APP_PUBLISH_PROFILE }}
   WEBAPP_NAME: "job-board-cambridge"
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}  # Add this if you need it
 
 jobs:
   build:
@@ -21,13 +22,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
+          cache: 'npm'
 
-      - name: npm install, build, and test
+      - name: npm install
+        run: npm ci
+
+      - name: npm build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}  # Add this if you need it
+
+      - name: Prepare deployment
         run: |
-          npm install
-          npm run build
-          mv ./build/static ./build/standalone/build
-          mv ./public ./build/standalone
+          cp -r ./public ./.next/standalone/public
+          cp -r ./.next/static ./.next/standalone/.next/static
+          cp next.config.mjs ./.next/standalone/
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
@@ -36,4 +45,4 @@ jobs:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
           publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
-          package: ./build/standalone
+          package: ./.next/standalone
