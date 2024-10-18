@@ -1,14 +1,9 @@
-name: Deploy Next.js to Azure Web App
+name: Deploy to Azure Web App
 
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
-
-env:
-  AZURE_WEBAPP_NAME: job-board-cambridge    # Replace with your app name
-  NODE_VERSION: '18.x'
+      - main  # or your deployment branch
 
 jobs:
   build-and-deploy:
@@ -20,28 +15,17 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-
+        node-version: '18'
+        
     - name: Install dependencies
       run: npm ci
-
+        
     - name: Build Next.js app
       run: npm run build
-      env:
-        NODE_ENV: production
-
-    - name: Prepare deployment package
-      run: |
-        cp -r .next/standalone/* .
-        cp -r .next/static .next/standalone/.next/
-        cp -r public .next/standalone/
-        cd .next/standalone
-        zip -r ../../release.zip .
-
+        
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-name: 'job-board-cambridge'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: release.zip
+        package: .
