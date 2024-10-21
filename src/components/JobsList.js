@@ -75,7 +75,6 @@ const JobCard = ({ job }) => {
           >
           <button
             className="text-green-600 hover:text-green-800 hover:underline text-sm transition duration-150 ease-in-out cursor-pointer inline"
-            onClick={() => setShowMore(!showMore)}
           >
             {showMore ? 'Show Less' : 'Show More'}
           </button>
