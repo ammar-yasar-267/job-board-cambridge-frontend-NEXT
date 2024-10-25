@@ -6,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: 'Jobs in Cambridge | Find thousands of jobs in Cambridge in just one click',
     description: 'Find the best jobs in Cambridge. Apply to the latest jobs in Cambridge and get hired quickly. Find the best jobs in Cambridge. Apply to the latest jobs in Cambridge and get hired quickly.',
-    url: 'https://jobsincambridge.co.uk',
+    url: 'https://jobsincambs.com',
     type: 'website',
   },
   robots: {
@@ -14,7 +14,7 @@ export const metadata = {
     follow: true,
   },
   alternates: {
-    canonical: 'https://jobsincambridge.co.uk',
+    canonical: 'https://jobsincambs.com',
   },
 }
 

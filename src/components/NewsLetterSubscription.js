@@ -48,11 +48,11 @@ const NewsLetterSubscription = ({ isSubscribed }) => {
       
       <div className="relative z-10">
         <div className="flex items-center mb-6">
-          <Mail className="w-7 h-7 text-green-300 mr-2" />
-          <h2 className="text-2xl font-bold text-white">Subscribe to our newsletter</h2>
+          <Mail className="w-6 h-6 sm:w-7 sm:h-7 text-green-300 mr-2" />
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Subscribe to our newsletter</h2>
         </div>
         <p className="text-green-100 mb-6 flex items-center">
-          <Bell className="w-4 h-4 mr-2" />
+          <Bell className="w-10 h-10 sm:w-4 sm:h-4 mr-2" />
           Stay updated with the latest job opportunities and career advice.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -65,7 +65,7 @@ const NewsLetterSubscription = ({ isSubscribed }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-500" />
+            <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-500 w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <button 
             type="submit"
@@ -73,7 +73,7 @@ const NewsLetterSubscription = ({ isSubscribed }) => {
             className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 flex items-center justify-center"
           >
             <span>{isLoading ? 'Subscribing...' : 'Subscribe'}</span>
-            <Send className="ml-2 w-4 h-4" />
+            <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </form>
       </div>

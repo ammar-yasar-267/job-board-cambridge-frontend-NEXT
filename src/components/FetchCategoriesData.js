@@ -67,7 +67,8 @@ async function fetchStaticHtml(keyword) {
     return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl text-green-600 font-bold mb-6 py-4 border-b-4 border-green-500">
-        {totalEntries} {keyword.replace(/%20/g, ' ')} jobs found in Cambridge
+        {/* {totalEntries}  */}
+        {keyword.replace(/%20/g, ' ')} jobs in Cambridge
       </h1>
       <div className="flex flex-col md:flex-row gap-8">
         <div className="hidden md:block w-full md:w-1/4 gap-x-4">

@@ -95,12 +95,14 @@ const JobCard = ({ job }) => {
   );
 };
 
+
 export default function JobsList({ jobs, categories }) {
     return (
-      <div className="w-full">
+      <><div className="w-full">
         {Array.isArray(jobs) && jobs.map((job) => (
           <JobCard key={job.id} job={job} />
         ))}
       </div>
+      </>
     );
   }

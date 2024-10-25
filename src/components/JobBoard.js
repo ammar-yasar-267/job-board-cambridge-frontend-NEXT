@@ -54,6 +54,25 @@ const JobBoard = () => {
     }
   };
 
+  const PostJobButton = () => (
+    <button className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 transition-colors duration-200">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+      <span>Post a Job</span>
+    </button>
+  );
+
   const handleIsSubscribed = (subscribed) => {
     setIsSubscribed(subscribed);
   }
@@ -61,14 +80,15 @@ const JobBoard = () => {
   return (
     <div className="min-h-5 flex flex-col font-sans">
       <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <img src="/logo.jpg" alt="Trovit Logo" className="w-32" />
+        <div className="container mx-auto py-4 px-4 flex justify-between items-center">
+          <img src="/logo.jpg" alt="Trovit Logo" className="w-40" />
+          <PostJobButton />
         </div>
       </header>
 
       <main className="flex-grow flex flex-col">
         <div 
-          className="bg-cover bg-center py-12 flex flex-col justify-between"
+          className="bg-cover bg-center py-10 flex flex-col justify-between"
           style={{
             backgroundImage: 'url(/bg.jpg)',
             backgroundSize: 'cover',
@@ -80,12 +100,12 @@ const JobBoard = () => {
         >
           <div className={`container mx-auto px-4 py-6 flex-grow flex flex-col gap-8`}>
             <div>
-              <h1 className="text-4xl font-bold text-center text-white mb-2">Jobs Finder</h1>
+              <h1 className="text-4xl font-bold text-center text-white mb-2">Jobs in Cambridge</h1>
               <p className="text-center text-gray-200 mb-8 max-w-2xl mx-auto"> {/* Reduced margin */}
-                Job Ads from thousands of websites in just one search.
+                Find jobs and vacancies in Cambridge
               </p>
 
-              <div className="max-w-4xl py-4 mx-auto mb-8"> {/* Reduced margin */}
+              <div className="max-w-4xl py-4 mx-auto mb-8 px-4 md:px-0"> {/* Added px-4 for mobile view */}
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                   <div className="flex-grow relative">
                     <input

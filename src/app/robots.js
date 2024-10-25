@@ -53,6 +53,6 @@ export default function robots() {
         ],
       },
     ],
-    sitemap: 'https://job-board-cambridge-frontend-next.vercel.app/sitemap.xml',
+    sitemap: 'https://jobsincambs.com/sitemap.xml',
   }
 }
