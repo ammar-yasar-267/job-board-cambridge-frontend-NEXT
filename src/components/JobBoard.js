@@ -110,7 +110,7 @@ const JobBoard = () => {
                   <div className="flex-grow relative">
                     <input
                       type="text"
-                      placeholder="What? Job or company name"
+                      placeholder="Job title"
                       className="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out text-input bg-white"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
